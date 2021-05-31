@@ -1,6 +1,7 @@
 package com.master.master;
 
 import com.master.master.domain.AvioKompanija;
+import com.master.master.domain.Avion;
 import com.master.master.jdbc.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -23,8 +24,10 @@ public class MasterApplication {
         OsobaDao osobaDao = (OsobaDao) context.getBean("osobaDao");
         LetDao letDao = (LetDao) context.getBean("letDao");
         PosedujeDao posedujeDao = (PosedujeDao) context.getBean("posedujeDao");
+        Avion1Dao avion1Dao = (Avion1Dao) context.getBean("avion1Dao");
         System.out.println("Pozic vozic");
 
+        avion1Dao.createList();
         Instant timeStart = Instant.now();
 //        avionDao.insertAll();
 //        avionDao.deleteAll();
@@ -33,7 +36,7 @@ public class MasterApplication {
 
 
 //        avioKompanijaDao.insertAll();
-        List<AvioKompanija> avioKompanije = avioKompanijaDao.findAll();
+//        List<AvioKompanija> avioKompanije = avioKompanijaDao.findAll();
 //        avioKompanijaDao.update("test", "ceo: 31");
 
 //        drzavaDao.insertAll();
@@ -50,12 +53,21 @@ public class MasterApplication {
 
 //        posedujeDao.insertAll();
 //        List<Poseduje> poseduje =  posedujeDao.findAll();
+        System.out.println("Krenulo:");
+//        avion1Dao.insertAll();
+        avion1Dao.update();
+        System.out.println("Gotovo");
+//        List<Avion> avioni1 = avion1Dao.findAll();
+
+
 
         Instant timeStop = Instant.now();
         Duration interval = Duration.between(timeStart, timeStop);
-        System.out.println(avioKompanije.get(0).getAvioni().size());
-        System.out.println(avioKompanije.size());
+//        System.out.println(avioni1.get(0));
+//        System.out.println(avioni1.size());
         System.out.println("Time passed: " + interval.toMillis());
+//        avion1Dao.deleteAll();
+//        System.out.println("Deleted.");
     }
 
 
