@@ -16,34 +16,34 @@ public class AerodromDao extends AbstractDao {
     }
 
     public List<Aerodrom> findAll() {
-        String sql = "SELECT A.*, D.ID, D.SKRACENI_NAZIV, D.BROJ_STANOVNIKA, D.NAZIV as naziv_drzave FROM \"Aerodrom\" A LEFT JOIN \"Drzava\" D on A.ID_DRZAVE = D.id";
+        String sql = "SELECT A.*, D.ID, D.SKRACENI_NAZIV, D.BROJ_STANOVNIKA, D.NAZIV as naziv_drzave FROM AERODROM A LEFT JOIN DRZAVA D on A.ID_DRZAVE = D.id";
         return jdbcTemplate.query(sql, mapper);
     }
 
-    public List<Aerodrom> searchCountry(String country) {
+    public List<Aerodrom> findByDrzava(String drzava) {
         String sql = "SELECT A.*, D.ID, D.SKRACENI_NAZIV, D.BROJ_STANOVNIKA, D.NAZIV as naziv_drzave " +
-                "FROM \"Aerodrom\" A " +
-                "LEFT JOIN \"Drzava\" D on A.ID_DRZAVE = D.id " +
-                "WHERE d.NAZIV LIKE ?";
-        return jdbcTemplate.query(sql, mapper, country);
+                "FROM IVAN.AERODROM A " +
+                "LEFT JOIN IVAN.DRZAVA D on A.ID_DRZAVE = D.id " +
+                "WHERE D.NAZIV LIKE ?";
+        return jdbcTemplate.query(sql, mapper, drzava);
     }
 
-    public void updateName(String newName, String countryName){
-        String sql = "UPDATE \"Aerodrom\"" +
-                "set NAZIV = concat(NAZIV, ?)\n" +
-                "WHERE ID_DRZAVE in ( Select ID from \"Drzava\" where \"Drzava\".NAZIV like ?)";
-        jdbcTemplate.update(sql, newName, countryName);
+    public void updateByNazivDrzave(String sufiks, String nazivDrzave) {
+        String sql = "UPDATE IVAN.AERODROM a " +
+                "set a.NAZIV = concat(a.NAZIV, ?) " +
+                "WHERE a.ID_DRZAVE in ( Select d.ID from IVAN.DRZAVA d where d.NAZIV like ?)";
+        jdbcTemplate.update(sql, sufiks, nazivDrzave);
     }
 
     public void deleteAll() {
-        String sql = "DELETE FROM \"Aerodrom\"";
+        String sql = "DELETE FROM AERODROM";
         jdbcTemplate.update(sql);
     }
 
     public void insertAll() {
         Aerodrom a = new Aerodrom();
 
-        String sql = "INSERT INTO \"Aerodrom\" VALUES(?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO AERODROM VALUES(?, ?, ?, ?, ?, ?)";
         for (int i = 1; i < 35000; i++) {
             a.setId(i);
             a.setNaziv("Naziv:" + i);

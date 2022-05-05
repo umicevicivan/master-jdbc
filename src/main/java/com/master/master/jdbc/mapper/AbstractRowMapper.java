@@ -11,10 +11,10 @@ import java.time.LocalDateTime;
 public abstract class AbstractRowMapper<T> implements RowMapper<T> {
 
     private ResultSet rs;
+
     protected abstract T mapRow() throws SQLException;
 
-    public AbstractRowMapper(){
-
+    public AbstractRowMapper() {
     }
 
     public T mapRow(ResultSet rs, int rowNumber) throws SQLException {
@@ -22,13 +22,16 @@ public abstract class AbstractRowMapper<T> implements RowMapper<T> {
         return mapRow();
     }
 
-    public ResultSet getResultSet() {
-        return rs;
+    protected Integer getInteger(String columnLabel) throws SQLException {
+        int value = rs.getInt(columnLabel);
+        return rs.wasNull() ? null : value;
     }
 
-    protected Integer getInteger(String columnLabel) throws SQLException {
-        Integer value = rs.getInt(columnLabel);
-        return rs.wasNull() ? null : value;
+    // ostale pomocne metode
+
+
+    public ResultSet getResultSet() {
+        return rs;
     }
 
     protected String getString(String columnLabel) throws SQLException {
@@ -49,7 +52,7 @@ public abstract class AbstractRowMapper<T> implements RowMapper<T> {
     }
 
     protected BigDecimal getBigDecimal(String columnLabel) throws SQLException {
-        return  rs.getBigDecimal(columnLabel);
+        return rs.getBigDecimal(columnLabel);
     }
 
 }
