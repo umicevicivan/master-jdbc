@@ -1,1 +1,1 @@
-# master-jdbc
+# master-hibernate
